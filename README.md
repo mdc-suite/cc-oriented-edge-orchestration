@@ -27,3 +27,29 @@ Each OS-specific directory includes:
     ├── docker/
     └── *.yaml
 ```
+
+## Build example
+To build the container image for an ARM target, move into the docker directory of the selected application and operating system, then use Docker Buildx.
+```bash
+cd axidma/ubuntu/docker
+docker buildx build --platform linux/arm64 -t <username>/<image-name>:<tag> --push .
+```
+Replace:
+- <username> with your Dockerhub username
+- <image-name> with the desired image name
+- <tag> with the image tag to assign
+
+## Deployment example
+To deploy the container on a k3s cluster, use the YAML file provided in the corresponding OS directory.
+```bash
+cd axidma/ubuntu
+kubectl apply -f <deployment-file>.yaml
+```
+Replace <deployment-file>.yaml with the actual YAML file name.
+
+To verify that the deployment has been created successfully, run:
+```bash
+kubectl get pods
+kubectl logs <pod-name>
+```
+
