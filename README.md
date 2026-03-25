@@ -1,4 +1,4 @@
-# K3s deployment for AXI DMA and Vitis AI Applications
+# K3s deployment for AXI DMA and Vitis AI Applications on KV260
 This repository provides a structured collection of deployment environments for applications based on:
 
 - [AXI-based-driver-applications](https://github.com/mdc-suite/AXI-based-driver-applications)
