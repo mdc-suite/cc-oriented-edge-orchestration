@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: resnet50-pod
+  labels:
+    app: resnet50
+spec:
+  restartPolicy: Never
+  containers:
+  - name: resnet50-container
+    image: mfois13/resnet50_app_petalinux:latest
+    securityContext:
+      privileged: true
+    volumeMounts:
+    - name: dri-device
+      mountPath: /dev/dri
+    - name: dfx-socket
+      mountPath: /tmp/dfx-mgrd.socket
+    - name: dpu-drivers
+      mountPath: /lib/firmware/xilinx
+    - name: input-images
+      mountPath: /input_images
+    stdin: true
+    tty: true
+  volumes:
+  - name: dri-device
+    hostPath:
+      path: /dev/dri
+      type: Directory
+  - name: dfx-socket
+    hostPath:
+      path: /tmp/dfx-mgrd.socket
+      type: Socket
+  - name: dpu-drivers
+    hostPath:
+      path: /lib/firmware/xilinx
+      type: Directory
+  - name: input-images
+    hostPath:
+      path: /home/root/resnet50_img
+      type: Directory
+  nodeSelector:
+    role: worker

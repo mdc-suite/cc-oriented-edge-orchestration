@@ -1,0 +1,13 @@
+FROM mfois13/ubuntu-axidma-distro:latest
+
+RUN apt-get update && apt-get install -y --no-install-recommends pv \
+    && rm -rf /var/lib/apt/lists/*
+    
+WORKDIR /aes
+
+COPY dma_test_aes.c ./
+RUN gcc -o dma_test_aes dma_test_aes.c
+
+COPY aes256_dma.bit pl_aes.dtbo ./
+
+CMD ["/bin/sh", "-c", "fpgautil -R && fpgautil -b /aes/aes256_dma.bit && fpgautil -o /aes/pl_aes.dtbo && /aes/dma_test_aes"]

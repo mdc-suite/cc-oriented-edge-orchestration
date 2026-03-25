@@ -1,0 +1,13 @@
+FROM mfois13/ubuntu-axidma-distro:latest
+
+RUN apt-get update && apt-get install -y --no-install-recommends pv \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /vpa
+
+COPY dma_test_vpa.c ./
+RUN gcc -o dma_test_vpa dma_test_vpa.c
+
+COPY vpa_dma.bit pl_vpa.dtbo input32.txt ./
+
+CMD ["/bin/sh", "-c", "fpgautil -R && fpgautil -b /vpa/vpa_dma.bit && fpgautil -o /vpa/pl_vpa.dtbo && ./vpa/dma_test_vpa"]

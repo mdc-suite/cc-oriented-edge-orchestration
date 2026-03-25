@@ -1,0 +1,11 @@
+FROM --platform=$TARGETPLATFORM gcc:13 AS build
+WORKDIR /src
+COPY dma_test_vpa.c .
+RUN gcc -O2 -Wall -Wextra -o dma_test_vpa dma_test_vpa.c
+
+FROM mfois13/yocto-axidma-distro:latest
+WORKDIR /vpa
+COPY --from=build /src/dma_test_vpa /vpa/dma_test_vpa
+COPY vpa_dma.bit pl_vpa.dtbo input32.txt ./
+
+CMD ["/bin/sh", "-c", "fpgautil -R && fpgautil -b /vpa/vpa_dma.bit && fpgautil -o /vpa/pl_vpa.dtbo && ./vpa/dma_test_vpa"]
