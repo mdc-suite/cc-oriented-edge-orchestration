@@ -1,4 +1,6 @@
 # K3s deployment for AXI DMA and Vitis AI Applications
+This flow has been validated for AMD FPGA-based MPSoC platforms (Zynq UltraScale+ and Zynq-7000 families) for which dedicated Yocto layers are available (such as AMD Kria KV260 and Digilent Zedboard).
+
 This repository provides a structured collection of deployment environments for applications based on:
 
 - [AXI-based-driver-applications](https://github.com/mdc-suite/AXI-based-driver-applications)
