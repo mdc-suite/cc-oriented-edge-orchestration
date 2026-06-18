@@ -1,0 +1,13 @@
+FROM --platform=linux/amd64 gcc:13 AS build
+WORKDIR /src
+RUN apt-get update && apt-get install -y gcc-arm-linux-gnueabihf
+COPY dma_test_vpa.c .
+RUN arm-linux-gnueabihf-gcc -O2 -Wall -Wextra -o dma_test_vpa dma_test_vpa.c
+
+FROM mfois13/yocto-distro-zedboard:latest
+WORKDIR /vpa
+
+COPY --from=build /src/dma_test_vpa /vpa/dma_test_vpa
+COPY vpa_dma.bin pl_vpa.dtbo input32.txt ./
+
+CMD ["/bin/sh", "-c", "fpgautil -R && fpgautil -b /vpa/vpa_dma.bin && fpgautil -o /vpa/pl_vpa.dtbo && ./vpa/dma_test_vpa"]

@@ -1,0 +1,13 @@
+FROM --platform=linux/amd64 gcc:13 AS build
+WORKDIR /src
+RUN apt-get update && apt-get install -y gcc-arm-linux-gnueabihf
+COPY dma_test_aes.c .
+RUN arm-linux-gnueabihf-gcc -O2 -Wall -Wextra -o dma_test_aes dma_test_aes.c
+
+FROM mfois13/yocto-distro-zedboard:latest
+WORKDIR /aes
+
+COPY --from=build /src/dma_test_aes /aes/dma_test_aes
+COPY aes256_dma.bin pl_aes.dtbo ./
+
+CMD ["/bin/sh", "-c", "fpgautil -R && fpgautil -b /aes/aes256_dma.bin && fpgautil -o /aes/pl_aes.dtbo && /aes/dma_test_aes"]
