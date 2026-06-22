@@ -49,7 +49,7 @@ Replace:
 ## Deployment example
 To deploy the container on a k3s cluster, use the YAML file provided in the corresponding application directory.
 ```bash
-cd kv260/axidma
+cd kv260/axidma/<os>/<app>
 kubectl apply -f <deployment-file>.yaml
 ```
 Replace <deployment-file>.yaml with the actual YAML file name.
