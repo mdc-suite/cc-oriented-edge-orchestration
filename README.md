@@ -34,10 +34,10 @@ Inside each application/OS directory (e.g., kv260/axidma/ or zedboard/axidma/yoc
 ## Build example
 To build the container image for an ARM target, move into the docker directory of the selected application and platform, then use Docker Buildx.
 ```bash
-cd kv260/axidma/<os>/docker
+cd kv260/axidma/<os>/<app>/docker-<app>
 docker buildx build --platform linux/arm64 -t <username>/<image-name>:<tag> --push .
 
-cd zedboard/axidma/yocto/docker
+cd zedboard/axidma/yocto//<app>/docker-<app>
 docker buildx build --platform linux/arm/v7 -t <username>/<image-name>:<tag> --push .
 
 ```
