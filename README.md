@@ -21,8 +21,8 @@ The repository is organized primarily by target hardware platforms, and sub-divi
 │       ├── yocto
 │       └── petalinux
 └── zedboard/
-│   └── axidma/
-│       └── yocto/
+    └── axidma/
+        └── yocto/
 ```
 
 ## Inner Directory Structure
