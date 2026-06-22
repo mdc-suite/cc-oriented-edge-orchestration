@@ -17,12 +17,12 @@ The repository is organized primarily by target hardware platforms, and sub-divi
 │       ├── ubuntu
 │       └── yocto
 │   └── vitis-AI/
-        ├── ubuntu
-        ├── yocto
-        └── petalinux
+│       ├── ubuntu
+│       ├── yocto
+│       └── petalinux
 └── zedboard/
-    └── axidma/
-        └── yocto/
+│   └── axidma/
+│       └── yocto/
 ```
 
 ## Inner Directory Structure
