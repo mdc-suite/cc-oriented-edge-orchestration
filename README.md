@@ -33,8 +33,21 @@ Inside each platform/OS subdirectory, the docker/ folder contains the building e
 * Custom-HW (Vivado): Packages the hardware execution binaries interacting with the underlying AXI DMA drivers.
 
 ## Container Orchestration & FPGA Resource Exposure
-The deployment folder contains the K3s deployment *.yaml* directives.
-Hardware access is achieved by securely mapping the host architecture's device nodes directly into the pod specifications. The deployment YAMLs configure container privileges and volume mounts (e.g., /dev/xclmgmt*, /dev/dri* for Vitis AI DPU structures, or custom character devices for AXI DMA drivers). This allows the K3s worker node to forward raw hardware execution requests from inside the isolated container straight to the programmable logic fabric.
+The K3s orchestration layer manages and deploys containerized workloads across edge nodes by securely mapping the host's underlying hardware interfaces and device nodes directly into the pod specifications. To allow user-space applications to communicate with the programmable logic without virtualization overhead, workloads are executed with administrative privileges (`privileged: true`) combined with explicit `hostPath` volume mounts.
+
+### 1. AI-oriented workloads
+For deep learning pipelines (Inception-v1, ResNet-50, YOLO-v3), hardware exposure is achieved by mounting key system and rendering device paths:
+* **/dev/dri**: Maps the Direct Rendering Infrastructure, allowing user-space libraries (VART) to interact with the DPU character devices.
+* **/var/run/dfx-mgrd.socket**: Forwards the Unix socket of the Xilinx Dynamic Function eXchange daemon (`dfx-mgrd`) to enable secure runtime hardware management inside the container.
+* **/lib/firmware/xilinx**: Exposes the host directory containing platform-specific DPU configuration assets and firmware overlays.
+
+### 2. Custom-HW workloads
+For algorithmic kernels (AES, VPA), the orchestrator exposes the low-level configuration and driver paths to manage dynamic hardware reprogramming and communication:
+* **/dev/fpga0** & **/dev/axidma**: Grant direct access to the FPGA manager interfaces and hardware-centric Direct Memory Access modules.
+* **/dev** (mounted as `/host-dev`): Allows the container to monitor the host subsystem and access dynamically generated character device nodes.
+* **/dev/uniss_dma**: The specific character device created on the host after the bitstream and driver are dynamically inserted.
+* **/sys** & **/sys/kernel/config** (`configfs`): Required by the container runtime to interact with the Linux kernel subsystem for dynamic hardware loading.
+* **/lib/firmware**: Provides access to the system directory containing the custom bitstream binaries (`.bit`/`.bin`) and device tree overlays (`.dtbo`).
 
 
 ## Build example (Workload Containerization)
