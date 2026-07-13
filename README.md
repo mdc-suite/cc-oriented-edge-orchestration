@@ -56,7 +56,7 @@ To build the container image for an ARM target, move into the docker directory o
 cd kv260/axidma/<os>/<app>/docker-<app>
 docker buildx build --platform linux/arm64 -t <username>/<image-name>:<tag> --push .
 
-cd zedboard/axidma/yocto//<app>/docker-<app>
+cd zedboard/axidma/yocto/<app>/docker-<app>
 docker buildx build --platform linux/arm/v7 -t <username>/<image-name>:<tag> --push .
 
 ```
