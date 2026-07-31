@@ -1,5 +1,5 @@
 # Seamless Integration of FPGA-based MPSoCs into Computing Continuum Infrastructures
-This repository provides the open-source implementation, deployment environments, and custom configurations supporting the end-to-end design flow.
+This repository provides the open-source implementation, deployment environments, and custom configurations supporting the end-to-end design flow proposed in the research article [Seamless Integration of FPGA-based MPSoCs into Computing Continuum Infrastructures](https://ieeexplore.ieee.org/document/11631705).
 The framework enables the orchestration of acceleration-oriented containerized workloads (WLs) at the edge within a Computing Continuum (CC) environment, validating a custom Yocto-based Linux distribution against vendor alternatives.
 The design flow has been fully validated on heterogeneous edge devices:
 * **AMD Kria KV260 Vision Starter Kit** (Zynq UltraScale+ MPSoC, 64-bit ARMv8 Cortex-A53)
